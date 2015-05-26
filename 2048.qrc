@@ -12,5 +12,7 @@
         <file>image/128.png</file>
         <file>image/1024.png</file>
         <file>image/0.png</file>
+        <file>image/background.jpg</file>
+        <file>image/background.png</file>
     </qresource>
 </RCC>

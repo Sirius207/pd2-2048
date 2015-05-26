@@ -17,26 +17,29 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>140</y>
+     <y>132</y>
      <width>47</width>
-     <height>12</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="background">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>381</width>
-     <height>281</height>
+     <x>0</x>
+     <y>-1</y>
+     <width>430</width>
+     <height>501</height>
     </rect>
    </property>
    <property name="text">
-    <string>背景</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>image/background.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -55,8 +58,8 @@
   <widget class="QPushButton" name="newgame">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>180</y>
+     <x>180</x>
+     <y>190</y>
      <width>75</width>
      <height>23</height>
     </rect>

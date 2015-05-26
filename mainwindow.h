@@ -29,7 +29,12 @@ protected:
       void moveDown();
 
       bool canMoved();
+      bool hitWall(int direction);
+      bool checkBlank(int direction);
       void endGame();
+      void rememberNumber();
+      void redo();
+
 
 private:
       void initGame();
@@ -45,10 +50,12 @@ private:
 
 
 
+
      Ui::MainWindow *ui;
      FillNumber* Table[4][4];
      finish *resWindow;
      int score;
+     int recordNumber[16];
 };
 
 #endif // MAINWINDOW_H
