@@ -2,6 +2,7 @@
 #define VSCOM_H
 #include <QWidget>
 #include <QKeyEvent>
+
 #include "finish.h"
 #include "fillnumber.h"
 
@@ -56,6 +57,7 @@ private:
       int recordDirection[2];
       int comNumber[16][16];
       FillNumber* direction[2];
+
 
 };
 

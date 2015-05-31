@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>2048</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -39,20 +39,29 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>image/background.png</pixmap>
+    <pixmap resource="2048.qrc">:/image/image/background.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>100</y>
-     <width>47</width>
-     <height>12</height>
+     <x>30</x>
+     <y>90</y>
+     <width>81</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="text">
-    <string>logo</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="2048.qrc">:/image/image/logo.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="newgame">
@@ -81,7 +90,66 @@
     <string>Battle!</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>70</y>
+     <width>111</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="2048.qrc">:/image/image/100.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>50</y>
+     <width>101</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="2048.qrc">:/image/image/4.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>10</y>
+     <width>121</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="2048.qrc">:/image/image/w8.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="2048.qrc"/>
+ </resources>
  <connections/>
 </ui>

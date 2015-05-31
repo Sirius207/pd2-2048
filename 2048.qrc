@@ -44,5 +44,10 @@
         <file>image/22.png</file>
         <file>image/23.png</file>
         <file>image/24.png</file>
+        <file>image/logo.png</file>
+        <file>image/100.png</file>
+        <file>image/play1.png</file>
+        <file>image/play2.png</file>
+        <file>image/black score logo.png</file>
     </qresource>
 </RCC>

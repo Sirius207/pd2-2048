@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>雙人遊戲</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -20,7 +20,7 @@
       <x>-1</x>
       <y>0</y>
       <width>431</width>
-      <height>80</height>
+      <height>82</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -29,8 +29,20 @@
      </item>
      <item>
       <widget class="QLabel" name="label">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
        <property name="text">
-        <string>玩家1</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="2048.qrc">:/image/image/play2.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -39,8 +51,20 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>80</height>
+        </size>
+       </property>
        <property name="text">
-        <string>玩家2</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="2048.qrc">:/image/image/play1.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -386,6 +410,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="2048.qrc"/>
+ </resources>
  <connections/>
 </ui>
