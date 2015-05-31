@@ -14,5 +14,35 @@
         <file>image/0.png</file>
         <file>image/background.jpg</file>
         <file>image/background.png</file>
+        <file>image/b2.png</file>
+        <file>image/b4.png</file>
+        <file>image/b8.png</file>
+        <file>image/b16.png</file>
+        <file>image/b32.png</file>
+        <file>image/b64.png</file>
+        <file>image/b128.png</file>
+        <file>image/b256.png</file>
+        <file>image/b512.png</file>
+        <file>image/b1024.png</file>
+        <file>image/b2048.png</file>
+        <file>image/w2.png</file>
+        <file>image/w4.png</file>
+        <file>image/w8.png</file>
+        <file>image/w16.png</file>
+        <file>image/w32.png</file>
+        <file>image/w64.png</file>
+        <file>image/w128.png</file>
+        <file>image/w256.png</file>
+        <file>image/w512.png</file>
+        <file>image/w1024.png</file>
+        <file>image/w2048.png</file>
+        <file>image/11.png</file>
+        <file>image/12.png</file>
+        <file>image/13.png</file>
+        <file>image/14.png</file>
+        <file>image/21.png</file>
+        <file>image/22.png</file>
+        <file>image/23.png</file>
+        <file>image/24.png</file>
     </qresource>
 </RCC>

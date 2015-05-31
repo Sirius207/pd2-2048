@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::finish *ui;
     QWidget *mainWindow;
+    QWidget *battlecomwindow;
 
 };
 

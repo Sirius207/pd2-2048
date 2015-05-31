@@ -16,16 +16,25 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     start.cpp \
     finish.cpp \
-    fillnumber.cpp
+    fillnumber.cpp \
+    battlechoose.cpp \
+    battlecom.cpp \
+    vscom.cpp
 
 HEADERS  += mainwindow.h \
     start.h \
     finish.h \
-    fillnumber.h
+    fillnumber.h \
+    battlechoose.h \
+    battlecom.h \
+    vscom.h
 
 FORMS    += mainwindow.ui \
     start.ui \
-    finish.ui
+    finish.ui \
+    battlechoose.ui \
+    battlecom.ui \
+    vscom.ui
 
 win32:CONFIG(release, debug|release): LIBS += $$quote(C:/Program Files(x86)/Microsoft SDKs/Windows/v7.1A/Lib/shell32.lib)
 else:win32:CONFIG(debug, debug|release): LIBS += $$quote(C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/shell32.lib)

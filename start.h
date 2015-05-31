@@ -2,8 +2,12 @@
 #define START_H
 
 #include <QMainWindow>
+#include <QWidget>
 #include "mainwindow.h"
 #include "finish.h"
+#include "battlecom.h"
+#include "vscom.h"
+
 
 
 namespace Ui {
@@ -21,12 +25,17 @@ public:
 private:
     Ui::start *ui;
     MainWindow *Gamewindow;
+    Battlecom *battlecomwindow;
+    vscom *vscomwindow;
     finish *resDialog;
 
 private slots:
 
     void on_newgame_clicked();
-    void resetGame();
+    void resetGame();    
+
+    void on_choosebattle_clicked();
+    void resetbattle();
 
 };
 

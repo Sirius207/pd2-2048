@@ -7,7 +7,10 @@ start::start(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->newgame,SIGNAL(clicked()),this,SLOT(on_newgame_clicked()));
+    connect(ui->choosebattle,SIGNAL(clicked()),this,SLOT(on_choosebattle_clicked()));
     Gamewindow=NULL;
+    battlecomwindow=NULL;
+    vscomwindow=NULL;
     resDialog=new finish;
 
 }
@@ -33,4 +36,23 @@ void start::resetGame()
     }
     Gamewindow=new MainWindow(this,resDialog);
     this->setCentralWidget(Gamewindow);
+}
+
+
+
+void start::on_choosebattle_clicked()
+{
+   vscomwindow=new vscom(this,resDialog);
+    connect(resDialog,SIGNAL(reset()),this,SLOT(resetbattle()));
+    this->setCentralWidget(vscomwindow);
+}
+
+void start::resetbattle()
+{
+    resDialog->hide();
+    if(vscomwindow!=NULL){
+        delete vscomwindow;
+    }
+    vscomwindow=new vscom(this,resDialog);
+    this->setCentralWidget(vscomwindow);
 }

@@ -65,7 +65,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>新遊戲</string>
+    <string>一般模式</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="choosebattle">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>230</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Battle!</string>
    </property>
   </widget>
  </widget>

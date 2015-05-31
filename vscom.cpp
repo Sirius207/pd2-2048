@@ -1,61 +1,65 @@
+#include "vscom.h"
+#include "ui_vscom.h"
 #include <QWidget>
 #include <QDebug>
 #include <QPushButton>
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "finish.h"
 
-MainWindow::MainWindow(QMainWindow *parent ,finish *res) :
+
+vscom::vscom(QWidget *parent,finish *res) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::vscom)
 {
     ui->setupUi(this);
     connect(this,SIGNAL(changed(int)),ui->lcdNumber,
             SLOT(display(int)));
-     resWindow=res;
-     score = 0;
-     fillTable();
-     initGame();
-
+    connect(this,SIGNAL(changedcom(int)),ui->lcdNumber_2,
+            SLOT(display(int)));
+    resWindow=res;
+    score = 0;
+    score2 = 0;
+    fillTable();
+    initGame();
+    rememberNumber();
+    redo();
 }
 
-MainWindow::~MainWindow()
+vscom::~vscom()
 {
     delete ui;
 }
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
+void vscom::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()){
-        case Qt::Key_Up:{
+        case Qt::Key_W:{
             if(canMoved()){
-
+                 direction[0]->setNumber(12,2);
                  rememberNumber();
-                 moveUp();}
+                 moveUp(0);}
             else endGame();
             break;
         }
-        case Qt::Key_Down:{
+        case Qt::Key_S:{
             if(canMoved()){
-
+                direction[0]->setNumber(14,2);
                rememberNumber();
-                moveDown();}
+                moveDown(0);}
             else endGame();
             break;
         }
-        case Qt::Key_Left:{
+        case Qt::Key_A:{
             if(canMoved()){
-
+                direction[0]->setNumber(13,2);
                rememberNumber();
-                moveLeft();}
+                moveLeft(0);}
             else endGame();
             break;
         }
-        case Qt::Key_Right:{
+        case Qt::Key_D:{
             if(canMoved()){
-
+                direction[0]->setNumber(11,2);
                 rememberNumber();
-                moveRight();}
+                moveRight(0);}
             else endGame();
             break;
         }
@@ -63,13 +67,44 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             redo();
             break;
         }
-
+        case Qt::Key_Right:{
+            if(canMoved()){
+                direction[1]->setNumber(21,2);
+                rememberNumber();
+                moveRight(1);}
+            else endGame();
+            break;
+        }
+    case Qt::Key_Down:{
+        if(canMoved()){
+            direction[1]->setNumber(24,2);
+            rememberNumber();
+            moveDown(1);}
+        else endGame();
+        break;
+    }
+    case Qt::Key_Left:{
+        if(canMoved()){
+            direction[1]->setNumber(23,2);
+            rememberNumber();
+            moveLeft(1);}
+        else endGame();
+        break;
+    }
+    case Qt::Key_Up:{
+        if(canMoved()){
+            direction[1]->setNumber(22,2);
+            rememberNumber();
+            moveUp(1);}
+        else endGame();
+        break;
+    }
 
         default: QWidget::keyPressEvent(event);
     }
 }
 
-void MainWindow::moveUp(){
+void vscom::moveUp(int bw){
 
      emptyBoxMoveDown();
      emptyBoxMoveDown();
@@ -84,9 +119,20 @@ void MainWindow::moveUp(){
                      else if(i>=2&&Table[i-1][j]->Number() == Table[i-2][j]->Number()){
 
                          Table[i-1][j]->setNumber(0,2);
-                         Table[i-2][j]->setNumber(Table[i-2][j]->Number()*2,2);
-                         score += Table[i-2][j]->Number();
-                         emit changed(score);
+                         if(bw==0){
+                            Table[i-2][j]->setWNumber(Table[i-2][j]->Number()*2);
+                         }
+                         else{
+                            Table[i-2][j]->setBNumber(Table[i-2][j]->Number()*2);
+                         }
+                         if(bw==0){
+                             score += Table[i-2][j]->Number();
+                             emit changed(score);
+                         }
+                         else{
+                             score2 += Table[i-2][j]->Number();
+                             emit changedcom(score2);
+                         }
                          if(Table[i-2][j]->Number() == 2048){
                              endGame();
                          }
@@ -94,10 +140,21 @@ void MainWindow::moveUp(){
                      }
                      else if(i>=2&&Table[i-1][j]->Number()*2 == Table[i-2][j]->Number()){
                          Table[i][j]->setNumber(0,2);
-                         Table[i-1][j]->setNumber(Table[i-1][j]->Number()*2,2);
-                         score += Table[i-1][j]->Number();
-                         emit changed(score);
-                         if(Table[i-1][j]->Number() == 2048){
+                        if(bw==0){
+                            Table[i-1][j]->setWNumber(Table[i-1][j]->Number()*2);
+                        }
+                        else{
+                           Table[i-1][j]->setBNumber(Table[i-1][j]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i-1][j]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i-1][j]->Number();
+                            emit changedcom(score2);
+                        }
+                        if(Table[i-1][j]->Number() == 2048){
                              endGame();
                          }
                          goto stopmoveup;
@@ -105,9 +162,20 @@ void MainWindow::moveUp(){
                      else{
                         jumpup:
                         Table[i][j]->setNumber(0,2);
-                        Table[i-1][j]->setNumber(Table[i-1][j]->Number()*2,2);
-                        score += Table[i-1][j]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i-1][j]->setWNumber(Table[i-1][j]->Number()*2);
+                        }
+                        else{
+                            Table[i-1][j]->setBNumber(Table[i-1][j]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i-1][j]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i-1][j]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i-1][j]->Number() == 2048){
                             endGame();
 
@@ -121,7 +189,7 @@ void MainWindow::moveUp(){
      emptyBoxMoveDown();
      randomBox();
 }
-void MainWindow::moveRight()
+void vscom::moveRight(int bw)
 {
     emptyBoxMoveLft();
     emptyBoxMoveLft();
@@ -134,9 +202,20 @@ void MainWindow::moveRight()
                     }
                     else if(j<=1&&Table[i][j+1]->Number()== Table[i][j+2]->Number()){
                         Table[i][j+1]->setNumber(0,2);
-                        Table[i][j+2]->setNumber(Table[i][j+2]->Number()*2,2);
-                        score += Table[i][j+2]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j+2]->setWNumber(Table[i][j+2]->Number()*2);
+                        }
+                        else{
+                            Table[i][j+2]->setBNumber(Table[i][j+2]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j+2]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j+2]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j+2]->Number() == 2048){
                             endGame();
                         }
@@ -144,9 +223,20 @@ void MainWindow::moveRight()
                     }
                     else if(j<=1&&Table[i][j+1]->Number()*2== Table[i][j+2]->Number()){
                         Table[i][j]->setNumber(0,2);
-                        Table[i][j+1]->setNumber(Table[i][j+1]->Number()*2,2);
-                        score += Table[i][j+1]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j+1]->setWNumber(Table[i][j+1]->Number()*2);
+                        }
+                        else{
+                            Table[i][j+1]->setBNumber(Table[i][j+1]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j+1]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j+1]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j+1]->Number() == 2048){
                             endGame();
                         }
@@ -156,9 +246,20 @@ void MainWindow::moveRight()
                     else{
                         jumpright:
                         Table[i][j]->setNumber(0,2);
-                        Table[i][j+1]->setNumber(Table[i][j+1]->Number()*2,2);
-                        score += Table[i][j+1]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j+1]->setWNumber(Table[i][j+1]->Number()*2);
+                        }
+                        else{
+                            Table[i][j+1]->setBNumber(Table[i][j+1]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j+1]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j+1]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j+1]->Number() == 2048){
                             endGame();
                         }
@@ -173,7 +274,7 @@ void MainWindow::moveRight()
     randomBox();
 }
 
-void MainWindow::moveLeft()
+void vscom::moveLeft(int bw)
 {
     emptyBoxMoveRight();
     emptyBoxMoveRight();
@@ -186,9 +287,20 @@ void MainWindow::moveLeft()
                     }
                     else if(j>=2&&Table[i][j-1]->Number()== Table[i][j-2]->Number()){
                         Table[i][j-1]->setNumber(0,2);
-                        Table[i][j-2]->setNumber(Table[i][j-2]->Number()*2,2);
-                        score += Table[i][j-2]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j-2]->setWNumber(Table[i][j-2]->Number()*2);
+                        }
+                        else{
+                            Table[i][j-2]->setBNumber(Table[i][j-2]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j-2]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j-2]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j-2]->Number() == 2048){
                             endGame();
                         }
@@ -196,9 +308,20 @@ void MainWindow::moveLeft()
                     }
                     else if(j>=2&&Table[i][j-1]->Number()*2== Table[i][j-2]->Number()){
                         Table[i][j]->setNumber(0,2);
-                        Table[i][j-1]->setNumber(Table[i][j-1]->Number()*2,2);
-                        score += Table[i][j-1]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j-1]->setWNumber(Table[i][j-1]->Number()*2);
+                        }
+                        else{
+                            Table[i][j-1]->setBNumber(Table[i][j-1]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j-1]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j-1]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j-1]->Number() == 2048){
                             endGame();
                         }
@@ -208,9 +331,20 @@ void MainWindow::moveLeft()
                     else{
                         jumpleft:
                         Table[i][j]->setNumber(0,2);
-                        Table[i][j-1]->setNumber(Table[i][j-1]->Number()*2,2);
-                        score += Table[i][j-1]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i][j-1]->setWNumber(Table[i][j-1]->Number()*2);
+                        }
+                        else{
+                            Table[i][j-1]->setBNumber(Table[i][j-1]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i][j-1]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i][j-1]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i][j-1]->Number() == 2048){
                             endGame();
                         }
@@ -224,7 +358,7 @@ void MainWindow::moveLeft()
     randomBox();
 }
 
-void MainWindow::moveDown()
+void vscom::moveDown(int bw)
 {
     emptyBoxMoveUp();
     emptyBoxMoveUp();
@@ -239,9 +373,21 @@ void MainWindow::moveDown()
 
                     else if(i<=1&&Table[i+1][j]->Number()== Table[i+2][j]->Number()){
                         Table[i+1][j]->setNumber(0,2);
-                        Table[i+2][j]->setNumber(Table[i+2][j]->Number()*2,2);
-                        score += Table[i+2][j]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i+2][j]->setWNumber(Table[i+2][j]->Number()*2);
+                        }
+                        else{
+                            Table[i+2][j]->setBNumber(Table[i+2][j]->Number()*2);
+                        }
+
+                        if(bw==0){
+                            score += Table[i+2][j]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i+2][j]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i+2][j]->Number() == 2048){
                             endGame();
                         }
@@ -249,9 +395,20 @@ void MainWindow::moveDown()
                     }
                     else if(i<=1&&Table[i+1][j]->Number()*2== Table[i+2][j]->Number()){
                         Table[i][j]->setNumber(0,2);
-                        Table[i+1][j]->setNumber(Table[i+1][j]->Number()*2,2);
-                        score += Table[i+1][j]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i+1][j]->setWNumber(Table[i+1][j]->Number()*2);
+                        }
+                        else{
+                            Table[i+1][j]->setBNumber(Table[i+1][j]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i+1][j]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i+1][j]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i+1][j]->Number() == 2048){
                             endGame();
                         }
@@ -260,9 +417,20 @@ void MainWindow::moveDown()
                     else{
                         jumpdown:
                         Table[i][j]->setNumber(0,2);
-                        Table[i+1][j]->setNumber(Table[i+1][j]->Number()*2,2);
-                        score += Table[i+1][j]->Number();
-                        emit changed(score);
+                        if(bw==0){
+                            Table[i+1][j]->setWNumber(Table[i+1][j]->Number()*2);
+                        }
+                        else{
+                            Table[i+1][j]->setBNumber(Table[i+1][j]->Number()*2);
+                        }
+                        if(bw==0){
+                            score += Table[i+1][j]->Number();
+                            emit changed(score);
+                        }
+                        else{
+                            score2 += Table[i+1][j]->Number();
+                            emit changedcom(score2);
+                        }
                         if(Table[i+1][j]->Number() == 2048){
                             endGame();
                         }
@@ -276,7 +444,7 @@ void MainWindow::moveDown()
     randomBox();
 }
 
-bool MainWindow::canMoved()
+bool vscom::canMoved()
 {
     if(isFull()){
         for(int i = 0;i < 4; i++){
@@ -296,7 +464,7 @@ bool MainWindow::canMoved()
         return true;
     }
 }
-void MainWindow::endGame()
+void vscom::endGame()
 {
 
     qDebug() << "End Game";
@@ -305,7 +473,7 @@ void MainWindow::endGame()
  //   qApp->exit();
     resWindow->show();
 }
-void MainWindow::initGame()
+void vscom::initGame()
 {
     for(int i = 0;i < 2;i++){
         int x = qrand()%4;
@@ -314,9 +482,11 @@ void MainWindow::initGame()
             int n = (qrand()%2+1)*2;
             Table[x][y]->setNumber(n,2);
         }
+        direction[0]->setNumber(0,2);
+        direction[1]->setNumber(0,2);
     }
 }
-void MainWindow::fillTable()
+void vscom::fillTable()
 {
     Table[0][0] = ui->f11;
     Table[0][1] = ui->f12;
@@ -337,10 +507,12 @@ void MainWindow::fillTable()
     Table[3][1] = ui->f42;
     Table[3][2] = ui->f43;
     Table[3][3] = ui->f44;
+    direction[0]= ui->player;
+    direction[1]= ui->com;
 
 }
 
-void MainWindow::randomBox()
+void vscom::randomBox()
 {
 
     QList<FillNumber*> list;
@@ -357,7 +529,7 @@ void MainWindow::randomBox()
 
 }
 
-bool MainWindow::isFull()
+bool vscom::isFull()
 {
     for(int i = 0;i < 4;i++){
         for(int j = 0;j < 4;j++){
@@ -367,7 +539,7 @@ bool MainWindow::isFull()
     }
     return true;
 }
-bool MainWindow::checkBlank(int direction){
+bool vscom::checkBlank(int direction){
     int check=0;
     if(direction=1){
         for(int i = 0;i < 4; i++){
@@ -418,7 +590,7 @@ bool MainWindow::checkBlank(int direction){
 
 }
 
-bool MainWindow::hitWall(int direction){
+bool vscom::hitWall(int direction){
       if(direction=2){
           for(int j = 0;j < 4; j++){
               for(int i = 0;i < 3;i++){
@@ -459,15 +631,18 @@ bool MainWindow::hitWall(int direction){
 }
 
 
-void MainWindow::swapBox(FillNumber *firstBox, FillNumber *lastBox)
+void vscom::swapBox(FillNumber *firstBox, FillNumber *lastBox)
 {
      int Num = firstBox->Number();
-     firstBox->setNumber(lastBox->Number(),2);
-     lastBox->setNumber(Num,2);
+     int fcolor = firstBox->color();
+
+     firstBox->setNumber(lastBox->Number(),lastBox->color());
+     lastBox->setNumber(Num,fcolor);
+
 }
 
 
-void MainWindow::emptyBoxMoveDown()
+void vscom::emptyBoxMoveDown()
 {
     for(int j = 0;j <=3;j++){
         for(int i = 0;i < 3;i++){
@@ -479,7 +654,7 @@ void MainWindow::emptyBoxMoveDown()
         }
     }
 }
-void MainWindow::emptyBoxMoveLft()
+void vscom::emptyBoxMoveLft()
 {
     for(int i = 0;i < 4;i++){
         for(int j = 3;j > 0;j--){
@@ -491,7 +666,7 @@ void MainWindow::emptyBoxMoveLft()
         }
     }
 }
-void MainWindow::emptyBoxMoveRight()
+void vscom::emptyBoxMoveRight()
 {
     for(int i = 0;i < 4;i++){
         for(int j = 0;j < 3;j++){
@@ -504,7 +679,7 @@ void MainWindow::emptyBoxMoveRight()
     }
 }
 
-void MainWindow::emptyBoxMoveUp()
+void vscom::emptyBoxMoveUp()
 {
     for(int j = 0;j < 4;j++){
         for(int i = 3;i > 0;i--){
@@ -517,7 +692,7 @@ void MainWindow::emptyBoxMoveUp()
     }
 }
 
-void MainWindow::rememberNumber()
+void vscom::rememberNumber()
 {
     for(int i=0;i<=3;i++){
         for(int j=0;j<=3;j++){
@@ -526,16 +701,26 @@ void MainWindow::rememberNumber()
         }
 
     }
-
+    recordDirection[0]=direction[0]->Number();
+    recordDirection[1]=direction[1]->Number();
 
 }
 
-void MainWindow::redo(){
+void vscom::redo(){
 
      for(int i=0;i<=3;i++){
         for(int j=0;j<=3;j++){
               Table[i][j]->setNumber(recordNumber[i*4+j],2);
         }
       }
+     direction[0]->setNumber(recordDirection[0],2);
+     direction[1]->setNumber(recordDirection[1],2);
+
+}
+
+void vscom::comMove(){
+
+
+
 
 }
